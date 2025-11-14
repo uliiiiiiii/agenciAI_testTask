@@ -1,5 +1,60 @@
 # agenciAI_testTask
 
+## Wersja polska 🇵🇱
+
+### Rozumowanie podejścia
+
+**Stack technologiczny:** Next.js — łatwiejsze (dosłownie trzy kliknięcia) wdrożenie, łatwiejsza komunikacja front-end/back-end (wykorzystanie API frameworka), brak problemów z CORS.
+
+Na początku myślałem o parsowaniu pliku PDF i dopiero wtedy wysyłaniu zapytania do Gemini — prawdopodobnie kosztowałoby to mniej (choć nie badałem tego dokładnie). Następnie zdecydowałem się wysyłać cały plik bezpośrednio, ponieważ model może również analizować strukturę i uzyskać coś z niej. Na przykład, jeśli w PDF byłby obrazek, a wyciągnęlibyśmy tylko tekst, moglibyśmy przegapić coś ważnego.
+
+Na początku wymagałem również, aby użytkownik wprowadzał swój token, aby nie używać mojego. Potem pomyślałem, że to zły pomysł, gdy chcę, aby wszystko działało „out of the box” (czyli po prostu wejść na stronę i sprawdzić, czy działa). Dlatego jeśli token nie zostanie podany (co nadal jest możliwe), aplikacja użyje domyślnego — mojego (bezpiecznie przechowywanego w zmiennej środowiskowej).
+
+---
+
+### Uruchamianie lokalnie
+
+1. `npm install`  
+2. Wklej swoją zmienną środowiskową do pliku `.env` (przykład w `.env.example`)  
+3. Uruchom:
+   - `npm run dev` — tryb developerski  
+   - `npm run build && npm run start` — uruchomienie wersji produkcyjnej  
+
+---
+
+### Wdrożenie
+
+Wdrożone tutaj: [https://agenciai-testtask.onrender.com/](https://agenciai-testtask.onrender.com/)
+
+---
+
+### Struktura projektu
+
+```
+
+app/          - cała aplikacja
+  api/        - backend
+    summarize/route.ts  - /api/summarize endpoint
+   page.tsx      - główna strona
+   styles.css    - style strony
+
+```
+
+---
+
+### Jak to działa
+
+1. **Akcja użytkownika:** Użytkownik przesyła plik PDF przez formularz.  
+2. **Wysyłka danych:** Front-end wysyła plik do endpointu `/api/summarize`.  
+3. **Walidacja:** Back-end weryfikuje typ pliku i jego zawartość.  
+4. **Zapytanie do AI:** Back-end wysyła PDF do API Gemini w celu wygenerowania podsumowania.  
+5. **Obsługa odpowiedzi:** Back-end odbiera podsumowanie od Gemini.  
+6. **Prezentacja wyniku:** Podsumowanie jest zwracane do front-endu i wyświetlane użytkownikowi.  
+
+---
+
+## English version 🇬🇧
+
 ## Reasoning behind the approach
 
 **Tech stack:** Next.js — easier (literally three clicks) deploy, easier backend/frontend communication (using API interface of the framework), no CORS-related issues.
