@@ -1,5 +1,6 @@
 "use client";
 import { FormEvent, useState } from "react";
+import "./styles.css";
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -15,7 +16,6 @@ export default function Home() {
     formData.append("file", file);
     formData.append("apiKey", apiKey);
 
-    // wysyłka danych
     setLoading(true);
     const res = await fetch("/api/summarize", {
       method: "POST",
@@ -28,45 +28,55 @@ export default function Home() {
   };
 
   return (
-    //akcja użytkownika
-    <main style={{ padding: 40 }}>
-      <h1>PDF Summarizer</h1>
+    <main className="cyber-container">
+      {/* Background glows */}
+      <div className="glow glow-1" />
+      <div className="glow glow-2" />
+      <div className="glow glow-3" />
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Upload PDF:</label>
-          <br />
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          />
-        </div>
+      <div className="card">
+        <h1 className="title">PDF Summarizer</h1>
+        <p className="subtitle">
+          Upload your PDF and get a clean summary using Gemini.
+        </p>
 
-        <div style={{ marginTop: 20 }}>
-          <label>Gemini API Key:</label>
-          <br />
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter your Gemini API key (optional, there is a default one)"
-          />
-        </div>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="label">Upload PDF:</label>
 
-        <button style={{ marginTop: 20 }} type="submit">
-          Generate Summary
-        </button>
-      </form>
+            <label className="file-upload">
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              />
+              <span>{file ? file.name : "Select PDF"}</span>
+            </label>
+          </div>
 
-      {loading && <p>Generating summary...</p>}
+          <div className="form-group">
+            <label className="label">Gemini API Key:</label>
+            <input
+              className="input-text"
+              type="password"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              placeholder="Enter your Gemini API key (optional)"
+            />
+          </div>
 
-      {summary && (
-        <div style={{ marginTop: 40 }}>
-          <h2>Summary:</h2>
-          <p>{summary}</p>
-        </div>
-      )}
+          <button className="btn" type="submit">
+            {loading ? "Generating..." : "Generate Summary"}
+          </button>
+        </form>
+
+        {summary && (
+          <div className="summary-box">
+            <h2 className="summary-title">Summary</h2>
+            <p className="summary-text">{summary}</p>
+          </div>
+        )}
+      </div>
     </main>
   );
 }
