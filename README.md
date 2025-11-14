@@ -6,9 +6,9 @@
 
 **Stack technologiczny:** Next.js — łatwiejsze (dosłownie trzy kliknięcia) wdrożenie, łatwiejsza komunikacja front-end/back-end (wykorzystanie API frameworka), brak problemów z CORS.
 
-Na początku myślałem o parsowaniu pliku PDF i dopiero wtedy wysyłaniu zapytania do Gemini — prawdopodobnie kosztowałoby to mniej (choć nie badałem tego dokładnie). Następnie zdecydowałem się wysyłać cały plik bezpośrednio, ponieważ model może również analizować strukturę i uzyskać coś z niej. Na przykład, jeśli w PDF byłby obrazek, a wyciągnęlibyśmy tylko tekst, moglibyśmy przegapić coś ważnego.
+Na początku myślałam o parsowaniu pliku PDF i dopiero wtedy wysyłaniu zapytania do Gemini — prawdopodobnie kosztowałoby to mniej (choć nie badałam tego dokładnie). Następnie zdecydowałam się wysyłać cały plik bezpośrednio, ponieważ model może również analizować strukturę i uzyskać coś z niej. Na przykład, jeśli w PDF byłby obrazek, a wyciągnęlibyśmy tylko tekst, moglibyśmy przegapić coś ważnego.
 
-Na początku wymagałem również, aby użytkownik wprowadzał swój token, aby nie używać mojego. Potem pomyślałem, że to zły pomysł, gdy chcę, aby wszystko działało „out of the box” (czyli po prostu wejść na stronę i sprawdzić, czy działa). Dlatego jeśli token nie zostanie podany (co nadal jest możliwe), aplikacja użyje domyślnego — mojego (bezpiecznie przechowywanego w zmiennej środowiskowej).
+Na początku wymagałam również, aby użytkownik wprowadzał swój token, aby nie używać mojego. Potem pomyślałam, że to zły pomysł, gdy chcę, aby wszystko działało „out of the box” (czyli po prostu wchodzi się na stronę i sprawdzić, czy działa). Dlatego jeśli token nie zostanie podany (co nadal jest możliwe), aplikacja użyje domyślnego — mojego (bezpiecznie przechowywanego w zmiennej środowiskowej).
 
 ---
 
