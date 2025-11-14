@@ -1,66 +1,73 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import { FormEvent, useState } from "react";
 
 export default function Home() {
+  const [file, setFile] = useState<File | null>(null);
+  const [apiKey, setApiKey] = useState("");
+  const [summary, setSummary] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return alert("Please upload a PDF");
+    if (!apiKey) return alert("Please enter your Gemini API key");
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("apiKey", apiKey);
+
+    // wysyłka danych
+    setLoading(true);
+    const res = await fetch("/api/summarize", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    setLoading(false);
+    setSummary(data.summary || "Error: no summary returned");
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    //akcja użytkownika
+    <main style={{ padding: 40 }}>
+      <h1>PDF Summarizer</h1>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Upload PDF:</label>
+          <br />
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          />
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div style={{ marginTop: 20 }}>
+          <label>Gemini API Key:</label>
+          <br />
+          <input
+            type="password"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter your Gemini API key"
+          />
         </div>
-      </main>
-    </div>
+
+        <button style={{ marginTop: 20 }} type="submit">
+          Generate Summary
+        </button>
+      </form>
+
+      {loading && <p>Generating summary...</p>}
+
+      {summary && (
+        <div style={{ marginTop: 40 }}>
+          <h2>Summary:</h2>
+          <p>{summary}</p>
+        </div>
+      )}
+    </main>
   );
 }
