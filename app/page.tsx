@@ -10,7 +10,6 @@ export default function Home() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return alert("Please upload a PDF");
-    if (!apiKey) return alert("Please enter your Gemini API key");
 
     const formData = new FormData();
     formData.append("file", file);
@@ -51,7 +50,7 @@ export default function Home() {
             type="password"
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter your Gemini API key"
+            placeholder="Enter your Gemini API key (optional, there is a default one)"
           />
         </div>
 

@@ -17,13 +17,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!apiKey || typeof apiKey !== "string") {
-      return NextResponse.json(
-        { error: "Missing or invalid Gemini API key" },
-        { status: 400 }
-      );
-    }
-
     // Validate filetype
     if (file.type !== "application/pdf") {
       return NextResponse.json(
@@ -38,7 +31,9 @@ export async function POST(req: NextRequest) {
 
     // Gemini API request
     const model = "gemini-2.5-flash-preview-09-2025";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${
+      apiKey ? apiKey : process.env.GEMINI_API_KEY
+    }`;
 
     const geminiRes = await fetch(apiUrl, {
       method: "POST",
