@@ -33,8 +33,8 @@ Deployed here: [https://agenciai-testtask.onrender.com/](https://agenciai-testta
 app/          - the whole application
   api/        - backend
     summarize/route.ts  - /api/summarize endpoint
-page.tsx      - main page
-styles.css    - styles for the page
+   page.tsx      - main page
+   styles.css    - styles for the page
 
 ```
 
